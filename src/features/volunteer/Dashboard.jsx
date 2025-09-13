@@ -9,10 +9,9 @@ const VolunteerDashboard = () => {
 
   useEffect(() => {
     try {
-      // Simulate loading data
       setTimeout(() => {
         setIsLoading(false);
-        const isFirstLogin = true; // Simulating first login for demo
+        const isFirstLogin = true;
         if (isFirstLogin) {
           setShowPopup(true);
         }
@@ -27,10 +26,7 @@ const VolunteerDashboard = () => {
     console.log("Signing out...");
   };
 
-  const handleClosePopup = () => {
-    setShowPopup(false);
-  };
-
+  const handleClosePopup = () => setShowPopup(false);
   const handleNavigateProfile = () => {
     console.log("Navigating to profile...");
     setShowPopup(false);
@@ -38,18 +34,18 @@ const VolunteerDashboard = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center p-4">
+      <div className="min-h-screen flex items-center justify-center bg-[#E5E5E5] p-4">
         <div className="bg-white rounded-2xl shadow-xl p-8 text-center max-w-md w-full">
           <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <h2 className="text-2xl font-bold text-gray-800 mb-2">Something went wrong</h2>
+          <h2 className="text-2xl font-bold text-[#0D1B2A] mb-2">Something went wrong</h2>
           <p className="text-gray-600 mb-6">{error}</p>
           <button
             onClick={() => console.log("Return home")}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition-colors duration-200"
+            className="bg-[#D4AF37] hover:bg-[#C19B20] text-[#0D1B2A] px-6 py-3 rounded-lg font-semibold transition-colors"
           >
             Return Home
           </button>
@@ -60,231 +56,193 @@ const VolunteerDashboard = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-[#E5E5E5]">
         <div className="text-center">
-          <div className="relative">
-            <div className="w-20 h-20 border-4 border-blue-200 rounded-full animate-spin"></div>
-            <div className="w-20 h-20 border-4 border-blue-600 border-t-transparent rounded-full animate-spin absolute top-0"></div>
-          </div>
-          <p className="mt-4 text-lg font-semibold text-gray-700">Loading your dashboard...</p>
+          <div className="w-20 h-20 border-4 border-[#0D1B2A]/30 rounded-full animate-spin mx-auto"></div>
+          <p className="mt-4 text-lg font-semibold text-[#0D1B2A]">Loading your dashboard...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      {/* Enhanced Navigation */}
-      <nav className="bg-white/80 backdrop-blur-md shadow-lg border-b border-white/20 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <div className="flex items-center space-x-6">
-              <div className="flex items-center space-x-2">
-                <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center">
-                  <span className="text-white font-bold text-lg">V</span>
-                </div>
-                <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  Voluntra
-                </h1>
-              </div>
-              <button className="flex items-center space-x-2 text-gray-600 hover:text-blue-600 transition-colors duration-200 px-3 py-2 rounded-lg hover:bg-blue-50">
-                <Home size={18} />
-                <span className="font-medium">Home</span>
-              </button>
-            </div>
+    <div className="min-h-screen bg-[#E5E5E5] flex flex-col">
+      {/* Navbar */}
+      <nav className="bg-[#0D1B2A] shadow-md sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+          <h1 className="text-2xl font-bold" style={{ color: "#D4AF37" }}>
+            Voluntra
+          </h1>
+          <div className="flex items-center space-x-6">
+            <button className="flex items-center space-x-2 text-white hover:text-[#D4AF37] transition-colors">
+              <Home size={18} />
+              <span>Home</span>
+            </button>
             <button
               onClick={handleSignOut}
-              className="flex items-center space-x-2 text-gray-600 hover:text-red-600 transition-colors duration-200 px-4 py-2 rounded-lg hover:bg-red-50"
+              className="flex items-center space-x-2 text-white hover:text-red-500 transition-colors"
             >
               <LogOut size={18} />
-              <span className="font-medium">Sign Out</span>
+              <span>Sign Out</span>
             </button>
           </div>
         </div>
       </nav>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Enhanced Header */}
+      {/* Content */}
+      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+        {/* Header */}
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">
+          <h1 className="text-4xl font-bold text-[#0D1B2A] mb-2">
             Welcome back, Alex! 👋
           </h1>
-          <p className="text-lg text-gray-600">Here's your volunteer journey so far</p>
+          <p className="text-lg text-gray-600">Here’s your volunteer journey so far</p>
         </div>
 
-        {/* Enhanced Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white/70 backdrop-blur-sm border border-white/20 p-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
-            <div className="flex items-center space-x-4">
-              <div className="w-14 h-14 bg-gradient-to-r from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center">
-                <Clock className="text-white" size={24} />
-              </div>
-              <div>
-                <h3 className="text-3xl font-bold text-gray-800">142</h3>
-                <p className="text-gray-600 font-medium">Hours Volunteered</p>
-              </div>
-            </div>
-          </div>
-          
-          <div className="bg-white/70 backdrop-blur-sm border border-white/20 p-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
-            <div className="flex items-center space-x-4">
-              <div className="w-14 h-14 bg-gradient-to-r from-green-500 to-green-600 rounded-2xl flex items-center justify-center">
-                <Calendar className="text-white" size={24} />
-              </div>
-              <div>
-                <h3 className="text-3xl font-bold text-gray-800">23</h3>
-                <p className="text-gray-600 font-medium">Events Attended</p>
-              </div>
-            </div>
-          </div>
-          
-          <div className="bg-white/70 backdrop-blur-sm border border-white/20 p-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
-            <div className="flex items-center space-x-4">
-              <div className="w-14 h-14 bg-gradient-to-r from-purple-500 to-purple-600 rounded-2xl flex items-center justify-center">
-                <Award className="text-white" size={24} />
-              </div>
-              <div>
-                <h3 className="text-3xl font-bold text-gray-800">15</h3>
-                <p className="text-gray-600 font-medium">Certificates Earned</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Enhanced Tabs */}
-        <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-2 mb-8 border border-white/20">
-          <div className="flex flex-wrap gap-2">
-            {[
-              { key: "ongoing", label: "Ongoing", icon: Clock },
-              { key: "upcoming", label: "Upcoming Events", icon: Calendar },
-              { key: "history", label: "History", icon: Award }
-            ].map(({ key, label, icon: Icon }) => (
-              <button
-                key={key}
-                onClick={() => setActiveTab(key)}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-semibold transition-all duration-200 ${
-                  activeTab === key
-                    ? "bg-white text-blue-600 shadow-lg scale-105"
-                    : "text-gray-600 hover:text-blue-600 hover:bg-white/50"
-                }`}
-              >
-                <Icon size={18} />
-                <span>{label}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Enhanced Tab Content */}
-        <div className="bg-white/70 backdrop-blur-sm border border-white/20 rounded-2xl shadow-xl overflow-hidden">
-          {activeTab === "ongoing" && (
-            <div className="p-8">
-              <div className="text-center py-12">
-                <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Clock className="text-gray-400" size={32} />
+        {/* Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          {[
+            { value: "142", label: "Hours Volunteered", icon: Clock },
+            { value: "23", label: "Events Attended", icon: Calendar },
+            { value: "15", label: "Certificates Earned", icon: Award }
+          ].map(({ value, label, icon: Icon }, i) => (
+            <div
+              key={i}
+              className="bg-white rounded-lg shadow hover:shadow-lg p-6 transition-all duration-300"
+            >
+              <div className="flex items-center space-x-4">
+                <div className="w-14 h-14 rounded-lg flex items-center justify-center bg-[#0D1B2A]">
+                  <Icon className="text-[#D4AF37]" size={24} />
                 </div>
-                <h3 className="text-2xl font-semibold text-gray-800 mb-2">No Ongoing Events</h3>
-                <p className="text-gray-600 mb-6">You don't have any ongoing volunteer activities at the moment.</p>
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold transition-colors duration-200">
-                  Browse Events
-                </button>
+                <div>
+                  <h3 className="text-3xl font-bold text-[#0D1B2A]">{value}</h3>
+                  <p className="text-gray-600 font-medium">{label}</p>
+                </div>
               </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Tabs */}
+        <div className="bg-white rounded-lg shadow p-2 mb-10 flex space-x-4">
+          {[
+            { key: "ongoing", label: "Ongoing", icon: Clock },
+            { key: "upcoming", label: "Upcoming Events", icon: Calendar },
+            { key: "history", label: "History", icon: Award }
+          ].map(({ key, label, icon: Icon }) => (
+            <button
+              key={key}
+              onClick={() => setActiveTab(key)}
+              className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold transition ${
+                activeTab === key
+                  ? "bg-[#0D1B2A] text-[#D4AF37]"
+                  : "text-[#0D1B2A] hover:text-[#D4AF37]"
+              }`}
+            >
+              <Icon size={18} />
+              <span>{label}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Tab Content */}
+        <div className="bg-white rounded-lg shadow p-8">
+          {activeTab === "ongoing" && (
+            <div className="text-center py-12">
+              <Clock className="mx-auto mb-4 text-gray-400" size={32} />
+              <h3 className="text-2xl font-semibold text-[#0D1B2A] mb-2">No Ongoing Events</h3>
+              <p className="text-gray-600 mb-6">You don’t have any ongoing volunteer activities.</p>
+              <button className="bg-[#D4AF37] hover:bg-[#C19B20] text-[#0D1B2A] px-6 py-3 rounded-lg font-semibold transition">
+                Browse Events
+              </button>
             </div>
           )}
 
           {activeTab === "upcoming" && (
-            <div className="p-8">
-              <div className="text-center py-12">
-                <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Calendar className="text-gray-400" size={32} />
-                </div>
-                <h3 className="text-2xl font-semibold text-gray-800 mb-2">No Upcoming Events</h3>
-                <p className="text-gray-600 mb-6">Stay tuned for exciting volunteer opportunities coming your way!</p>
-                <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-semibold transition-colors duration-200">
-                  Get Notified
-                </button>
-              </div>
+            <div className="text-center py-12">
+              <Calendar className="mx-auto mb-4 text-gray-400" size={32} />
+              <h3 className="text-2xl font-semibold text-[#0D1B2A] mb-2">No Upcoming Events</h3>
+              <p className="text-gray-600 mb-6">Stay tuned for exciting volunteer opportunities!</p>
+              <button className="bg-[#D4AF37] hover:bg-[#C19B20] text-[#0D1B2A] px-6 py-3 rounded-lg font-semibold transition">
+                Get Notified
+              </button>
             </div>
           )}
 
           {activeTab === "history" && (
-            <div className="p-8">
-              <h3 className="text-2xl font-semibold text-gray-800 mb-6">Your Volunteer History</h3>
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b-2 border-gray-200">
-                      <th className="text-left py-4 px-6 font-semibold text-gray-700">Event</th>
-                      <th className="text-left py-4 px-6 font-semibold text-gray-700">Date</th>
-                      <th className="text-left py-4 px-6 font-semibold text-gray-700">Hours</th>
-                      <th className="text-left py-4 px-6 font-semibold text-gray-700">Certificate</th>
+            <div>
+              <h3 className="text-2xl font-semibold text-[#0D1B2A] mb-6">Your Volunteer History</h3>
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b-2 border-gray-200">
+                    <th className="text-left py-4 px-6 text-[#0D1B2A]">Event</th>
+                    <th className="text-left py-4 px-6 text-[#0D1B2A]">Date</th>
+                    <th className="text-left py-4 px-6 text-[#0D1B2A]">Hours</th>
+                    <th className="text-left py-4 px-6 text-[#0D1B2A]">Certificate</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {[
+                    { event: "Tree Plantation Drive", date: "12 Aug 2024", hours: "8" },
+                    { event: "Beach Cleanup Campaign", date: "25 Jul 2024", hours: "6" },
+                    { event: "Food Distribution", date: "10 Jul 2024", hours: "4" }
+                  ].map((item, idx) => (
+                    <tr key={idx} className="hover:bg-gray-50 transition">
+                      <td className="py-4 px-6 font-semibold text-[#0D1B2A]">{item.event}</td>
+                      <td className="py-4 px-6 text-gray-600">{item.date}</td>
+                      <td className="py-4 px-6">
+                        <span className="bg-[#E5E5E5] text-[#0D1B2A] px-3 py-1 rounded-full text-sm font-medium">
+                          {item.hours}h
+                        </span>
+                      </td>
+                      <td className="py-4 px-6">
+                        <button className="flex items-center space-x-2 bg-[#0D1B2A] hover:bg-[#112A3C] text-white px-4 py-2 rounded-lg font-medium transition">
+                          <Download size={16} />
+                          <span>Download</span>
+                        </button>
+                      </td>
                     </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-100">
-                    {[
-                      { event: "Tree Plantation Drive", date: "12 Aug 2024", hours: "8", status: "Available" },
-                      { event: "Beach Cleanup Campaign", date: "25 July 2024", hours: "6", status: "Available" },
-                      { event: "Food Distribution", date: "10 July 2024", hours: "4", status: "Available" },
-                      { event: "Educational Workshop", date: "28 June 2024", hours: "5", status: "Available" }
-                    ].map((item, index) => (
-                      <tr key={index} className="hover:bg-gray-50 transition-colors duration-200">
-                        <td className="py-4 px-6">
-                          <div className="font-semibold text-gray-800">{item.event}</div>
-                        </td>
-                        <td className="py-4 px-6 text-gray-600">{item.date}</td>
-                        <td className="py-4 px-6">
-                          <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
-                            {item.hours}h
-                          </span>
-                        </td>
-                        <td className="py-4 px-6">
-                          <button className="flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:scale-105 shadow-lg">
-                            <Download size={16} />
-                            <span>Download</span>
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                  ))}
+                </tbody>
+              </table>
             </div>
           )}
         </div>
+      </main>
 
-        {/* Enhanced First Login Popup */}
-        {showPopup && (
-          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50 p-4">
-            <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md transform transition-all duration-300 scale-100">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-                  <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                </div>
-                <h2 className="text-2xl font-bold text-gray-800 mb-3">Complete Your Profile</h2>
-                <p className="text-gray-600 mb-8 leading-relaxed">
-                  Help us personalize your volunteer experience by completing your profile information.
-                </p>
-                <div className="space-y-3">
-                  <button
-                    onClick={handleNavigateProfile}
-                    className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg"
-                  >
-                    Complete Profile
-                  </button>
-                  <button
-                    onClick={handleClosePopup}
-                    className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 px-6 py-3 rounded-xl font-semibold transition-colors duration-200"
-                  >
-                    Maybe Later
-                  </button>
-                </div>
-              </div>
+      {/* Popup */}
+      {showPopup && (
+        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
+          <div className="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full text-center">
+            <div className="w-16 h-16 bg-[#0D1B2A] rounded-lg flex items-center justify-center mx-auto mb-6">
+              <svg className="w-8 h-8 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+              </svg>
+            </div>
+            <h2 className="text-2xl font-bold text-[#0D1B2A] mb-3">Complete Your Profile</h2>
+            <p className="text-gray-600 mb-8">Help us personalize your volunteer experience by completing your profile.</p>
+            <div className="space-y-3">
+              <button
+                onClick={handleNavigateProfile}
+                className="w-full bg-[#D4AF37] hover:bg-[#C19B20] text-[#0D1B2A] px-6 py-3 rounded-lg font-semibold transition"
+              >
+                Complete Profile
+              </button>
+              <button
+                onClick={handleClosePopup}
+                className="w-full bg-gray-100 hover:bg-gray-200 text-[#0D1B2A] px-6 py-3 rounded-lg font-semibold transition"
+              >
+                Maybe Later
+              </button>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
+
+      {/* Footer */}
+      <footer className="bg-[#0D1B2A] text-white py-6 text-center mt-auto">
+        <p className="text-sm">© {new Date().getFullYear()} Voluntra. All Rights Reserved.</p>
+      </footer>
     </div>
   );
 };
