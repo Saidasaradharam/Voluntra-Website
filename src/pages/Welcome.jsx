@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Mail, MessageCircle, Menu, X } from "lucide-react";
+import Navbar from "../components/Navbar"; // import Navbar
+
 
 const WelcomePage = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -17,7 +19,8 @@ const WelcomePage = () => {
   return (
     <div className="min-h-screen w-full flex flex-col text-gray-800 overflow-x-hidden" style={{backgroundColor: '#E5E5E5'}}>
       {/* Navbar */}
-      <nav className="shadow-md sticky top-0 z-50 w-full" style={{backgroundColor: '#0D1B2A'}}>
+      <Navbar />
+      {/* <nav className="shadow-md sticky top-0 z-50 w-full" style={{backgroundColor: '#0D1B2A'}}>
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <h1 className="text-2xl sm:text-3xl font-bold" style={{color: '#D4AF37'}}>Voluntra</h1>
           <ul className="hidden md:flex space-x-6 lg:space-x-8 text-base lg:text-lg font-medium text-white">
@@ -36,9 +39,9 @@ const WelcomePage = () => {
           >
             {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
-        </div>
+        </div> */}
         {/* Mobile Menu */}
-        {isMenuOpen && (
+        {/* {isMenuOpen && (
           <div className="md:hidden absolute top-full left-0 right-0 bg-[#0D1B2A] shadow-lg transform transition-transform duration-200">
             <div className="py-4">
               <ul className="flex flex-col">
@@ -52,7 +55,7 @@ const WelcomePage = () => {
             </div>
           </div>
         )}
-      </nav>
+      </nav> */}
 
       {/* Hero Section */}
       <section className="w-full text-white py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8" style={{backgroundColor: '#0D1B2A'}}>
