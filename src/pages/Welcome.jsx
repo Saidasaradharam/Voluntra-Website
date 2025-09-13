@@ -1,7 +1,9 @@
-import React from "react";
-import { Mail, MessageCircle } from "lucide-react";
+import React, { useState } from "react";
+import { Mail, MessageCircle, Menu, X } from "lucide-react";
 
 const WelcomePage = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  
   // Add CSS reset for full viewport coverage
   React.useEffect(() => {
     document.body.style.margin = '0';
@@ -15,72 +17,127 @@ const WelcomePage = () => {
   return (
     <div className="min-h-screen w-full flex flex-col text-gray-800 overflow-x-hidden" style={{backgroundColor: '#E5E5E5'}}>
       {/* Navbar */}
-      <nav className="shadow-md sticky top-0 z-50 w-full" style={{backgroundColor: '#FFFFFF'}}>
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
-          <h1 className="text-2xl font-bold" style={{color: '#0D1B2A'}}>Voluntra</h1>
-          <ul className="hidden md:flex space-x-6 text-lg font-medium" style={{color: '#0D1B2A'}}>
-            <li className="cursor-pointer transition-colors" style={{'&:hover': {color: '#D4AF37'}}}>Home</li>
-            <li className="cursor-pointer transition-colors hover:opacity-80">About Us</li>
-            <li className="cursor-pointer transition-colors hover:opacity-80">Events</li>
-            <li className="cursor-pointer transition-colors hover:opacity-80">Contact Us</li>
+      <nav className="shadow-md sticky top-0 z-50 w-full" style={{backgroundColor: '#0D1B2A'}}>
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+          <h1 className="text-2xl sm:text-3xl font-bold" style={{color: '#D4AF37'}}>Voluntra</h1>
+          <ul className="hidden md:flex space-x-6 lg:space-x-8 text-base lg:text-lg font-medium text-white">
+            <li className="cursor-pointer transition-colors hover:text-[#D4AF37]">Home</li>
+            <li className="cursor-pointer transition-colors hover:text-[#D4AF37]">About Us</li>
+            <li className="cursor-pointer transition-colors hover:text-[#D4AF37]">Events</li>
+            <li className="cursor-pointer transition-colors hover:text-[#D4AF37]">Contact Us</li>
           </ul>
-          <button className="md:hidden text-2xl" style={{color: '#0D1B2A'}}>☰</button>
+          <div className="hidden md:flex items-center space-x-4">
+            <button className="text-white hover:text-[#D4AF37] transition-colors">Sign In</button>
+            <button className="bg-[#D4AF37] text-[#0D1B2A] px-4 py-2 rounded-lg hover:bg-[#C19B20] transition-colors font-semibold">Register</button>
+          </div>
+          <button 
+            onClick={() => setIsMenuOpen(!isMenuOpen)} 
+            className="md:hidden text-white"
+          >
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
+        {/* Mobile Menu */}
+        {isMenuOpen && (
+          <div className="md:hidden absolute top-full left-0 right-0 bg-[#0D1B2A] shadow-lg transform transition-transform duration-200">
+            <div className="py-4">
+              <ul className="flex flex-col">
+                <li className="px-8 py-3 text-white hover:text-[#D4AF37] transition-colors">Home</li>
+                <li className="px-8 py-3 text-white hover:text-[#D4AF37] transition-colors">About Us</li>
+                <li className="px-8 py-3 text-white hover:text-[#D4AF37] transition-colors">Events</li>
+                <li className="px-8 py-3 text-white hover:text-[#D4AF37] transition-colors">Contact Us</li>
+                <li className="px-8 py-3"><button className="text-[#D4AF37] hover:text-white transition-colors w-full text-left">Sign In</button></li>
+                <li className="px-8 py-3"><button className="bg-[#D4AF37] text-[#0D1B2A] px-4 py-2 rounded-lg hover:bg-[#C19B20] transition-colors w-full">Register</button></li>
+              </ul>
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* Hero Section */}
-      <section className="w-full text-white py-16 px-4 sm:px-6 lg:px-8 text-center" style={{backgroundColor: '#0D1B2A'}}>
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
-            Welcome to Voluntra
-          </h2>
-          <p className="text-base sm:text-lg max-w-2xl mx-auto mb-6 leading-relaxed">
-            Connecting volunteers with NGOs to create a better tomorrow. Join us to make an impact and
-            bring positive change to society.
-          </p>
-          <button 
-            className="font-semibold px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 hover:opacity-90"
-            style={{backgroundColor: '#D4AF37', color: '#0D1B2A'}}
-          >
-            Get Started
-          </button>
+      <section className="w-full text-white py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8" style={{backgroundColor: '#0D1B2A'}}>
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+            <div className="text-left">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 leading-tight">
+                Make a Difference Through Volunteering
+              </h2>
+              <p className="text-lg sm:text-xl text-gray-300 mb-8">
+                Join our community of changemakers and connect with NGOs making real impact. 
+                Your skills can transform lives and communities.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button 
+                  className="bg-[#D4AF37] text-[#0D1B2A] font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-lg shadow-lg hover:bg-[#C19B20] transition flex items-center justify-center"
+                >
+                  Get Started <span className="ml-2">→</span>
+                </button>
+                <button 
+                  className="border-2 border-[#D4AF37] text-[#D4AF37] font-semibold px-6 sm:px-8 py-3 sm:py-4 rounded-lg hover:bg-[#D4AF37]/10 transition"
+                >
+                  Learn More
+                </button>
+              </div>
+            </div>
+            <div className="hidden md:block">
+              <img 
+                src="/volunteer-hero.jpg" 
+                alt="Volunteers working together" 
+                className="rounded-lg shadow-2xl w-full object-cover h-[500px]"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Upcoming Events Section */}
-      <section className="w-full py-12 px-4 sm:px-6 lg:px-8" style={{backgroundColor: '#FFFFFF'}}>
+      <section className="w-full py-12 sm:py-16 px-4 sm:px-6 lg:px-8" style={{backgroundColor: '#FFFFFF'}}>
         <div className="max-w-7xl mx-auto">
-          <h3 className="text-2xl sm:text-3xl font-bold text-center mb-8" style={{color: '#0D1B2A'}}>
-            Upcoming Events
-          </h3>
+          <div className="flex flex-col sm:flex-row justify-between items-center mb-8">
+            <h3 className="text-2xl sm:text-3xl font-bold" style={{color: '#0D1B2A'}}>Upcoming Events</h3>
+            <button className="mt-4 sm:mt-0 text-base sm:text-lg font-medium flex items-center hover:text-[#D4AF37] transition-colors" style={{color: '#0D1B2A'}}>
+              View All Events <span className="ml-2">→</span>
+            </button>
+          </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {[1, 2, 3].map((event) => (
               <div
                 key={event}
-                className="shadow-md rounded-lg p-6 hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
-                style={{backgroundColor: '#FFFFFF', border: '1px solid #E5E5E5'}}
+                className="bg-white shadow-md rounded-lg overflow-hidden hover:shadow-xl transition-all duration-300"
               >
-                <h4 className="text-xl font-semibold mb-2" style={{color: '#0D1B2A'}}>
-                  Event Title {event}
-                </h4>
-                <p className="text-sm mb-2" style={{color: '#666'}}>Date: 12 Sep 2025</p>
-                <p className="mb-4 text-sm leading-relaxed" style={{color: '#666'}}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vel
-                  turpis ut eros tincidunt facilisis.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <button 
-                    className="px-4 py-2 rounded-lg transition-colors duration-200 text-sm font-medium hover:opacity-90"
-                    style={{backgroundColor: '#D4AF37', color: '#0D1B2A'}}
-                  >
-                    Register
-                  </button>
-                  <button 
-                    className="px-4 py-2 rounded-lg transition-colors duration-200 text-sm font-medium hover:opacity-80"
-                    style={{backgroundColor: '#E5E5E5', color: '#0D1B2A'}}
-                  >
-                    View More
-                  </button>
+                <div className="px-4 py-3 flex justify-between items-center" style={{backgroundColor: '#0D1B2A', color: '#FFFFFF'}}>
+                  <span className="text-sm font-medium">20 spots left</span>
+                  <span className="text-sm">9:00 AM - 2:00 PM</span>
+                </div>
+                <div className="p-6">
+                  <h4 className="text-lg sm:text-xl font-semibold mb-3" style={{color: '#0D1B2A'}}>
+                    Event Title {event}
+                  </h4>
+                  <div className="flex items-center text-gray-600 text-sm mb-2">
+                    <span className="mr-2">📅</span>
+                    <span>Sept 15, 2024</span>
+                  </div>
+                  <div className="flex items-center text-gray-600 text-sm mb-4">
+                    <span className="mr-2">📍</span>
+                    <span>Downtown Community Center</span>
+                  </div>
+                  <p className="mb-6 text-sm sm:text-base text-gray-600 leading-relaxed">
+                    Join us for this amazing event that will make a real difference in our community.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <button 
+                      className="flex-1 px-4 py-2 rounded-lg text-sm font-semibold transition-colors"
+                      style={{backgroundColor: '#D4AF37', color: '#0D1B2A'}}
+                    >
+                      Register Now
+                    </button>
+                    <button 
+                      className="px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                      style={{backgroundColor: '#0D1B2A', color: '#FFFFFF'}}
+                    >
+                      Details
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
