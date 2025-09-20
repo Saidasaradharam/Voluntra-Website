@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Download, Home, LogOut, Calendar, Clock, Award } from "lucide-react";
+import { Download, Home, LogOut, Calendar, Clock, Award, User, Settings, Info } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const VolunteerDashboard = () => {
-  const [activeTab, setActiveTab] = useState("ongoing");
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState("events"); // 'events' is the new default tab
   const [showPopup, setShowPopup] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -11,7 +13,7 @@ const VolunteerDashboard = () => {
     try {
       setTimeout(() => {
         setIsLoading(false);
-        const isFirstLogin = true;
+        const isFirstLogin = true; // Placeholder for actual localStorage check
         if (isFirstLogin) {
           setShowPopup(true);
         }
@@ -23,12 +25,14 @@ const VolunteerDashboard = () => {
   }, []);
 
   const handleSignOut = () => {
+    // Implement actual sign-out logic, e.g., localStorage.removeItem("user");
     console.log("Signing out...");
+    navigate("/");
   };
 
   const handleClosePopup = () => setShowPopup(false);
   const handleNavigateProfile = () => {
-    console.log("Navigating to profile...");
+    setActiveTab("profile");
     setShowPopup(false);
   };
 
@@ -44,7 +48,7 @@ const VolunteerDashboard = () => {
           <h2 className="text-2xl font-bold text-[#0D1B2A] mb-2">Something went wrong</h2>
           <p className="text-gray-600 mb-6">{error}</p>
           <button
-            onClick={() => console.log("Return home")}
+            onClick={() => navigate("/")}
             className="bg-[#D4AF37] hover:bg-[#C19B20] text-[#0D1B2A] px-6 py-3 rounded-lg font-semibold transition-colors"
           >
             Return Home
@@ -65,33 +69,151 @@ const VolunteerDashboard = () => {
     );
   }
 
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case "events":
+        return (
+          <div className="space-y-6">
+            <div className="bg-white rounded-lg shadow p-8">
+              <h3 className="text-2xl font-semibold text-[#0D1B2A] mb-4">Ongoing Events</h3>
+              <p className="text-gray-600">You don't have any ongoing volunteer activities.</p>
+            </div>
+            <div className="bg-white rounded-lg shadow p-8">
+              <h3 className="text-2xl font-semibold text-[#0D1B2A] mb-4">Upcoming Events</h3>
+              <p className="text-gray-600">Stay tuned for exciting volunteer opportunities!</p>
+            </div>
+          </div>
+        );
+      case "history":
+        return (
+          <div className="bg-white rounded-lg shadow p-8">
+            <h3 className="text-2xl font-semibold text-[#0D1B2A] mb-6">Your Volunteer History</h3>
+            <table className="w-full">
+              <thead>
+                <tr className="border-b-2 border-gray-200">
+                  <th className="text-left py-4 px-6 text-[#0D1B2A]">Event</th>
+                  <th className="text-left py-4 px-6 text-[#0D1B2A]">Date</th>
+                  <th className="text-left py-4 px-6 text-[#0D1B2A]">Hours</th>
+                  <th className="text-left py-4 px-6 text-[#0D1B2A]">Certificate</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {[
+                  { event: "Tree Plantation Drive", date: "12 Aug 2024", hours: "8" },
+                  { event: "Beach Cleanup Campaign", date: "25 Jul 2024", hours: "6" },
+                  { event: "Food Distribution", date: "10 Jul 2024", hours: "4" }
+                ].map((item, idx) => (
+                  <tr key={idx} className="hover:bg-gray-50 transition">
+                    <td className="py-4 px-6 font-semibold text-[#0D1B2A]">{item.event}</td>
+                    <td className="py-4 px-6 text-gray-600">{item.date}</td>
+                    <td className="py-4 px-6">
+                      <span className="bg-[#E5E5E5] text-[#0D1B2A] px-3 py-1 rounded-full text-sm font-medium">
+                        {item.hours}h
+                      </span>
+                    </td>
+                    <td className="py-4 px-6">
+                      <button className="flex items-center space-x-2 bg-[#0D1B2A] hover:bg-[#112A3C] text-white px-4 py-2 rounded-lg font-medium transition">
+                        <Download size={16} />
+                        <span>Download</span>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+      case "profile":
+        return (
+          <div className="bg-white rounded-lg shadow p-8">
+            <h3 className="text-2xl font-semibold text-[#0D1B2A] mb-4">Your Profile</h3>
+            <p className="text-gray-600">
+              This is where you can update your personal details, skills, and interests.
+            </p>
+            <button className="mt-4 bg-[#D4AF37] hover:bg-[#C19B20] text-[#0D1B2A] px-6 py-3 rounded-lg font-semibold transition-colors">
+              Edit Profile
+            </button>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#E5E5E5] flex flex-col">
-      {/* Navbar */}
-      <nav className="bg-[#0D1B2A] shadow-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+    <div className="flex min-h-screen bg-[#E5E5E5]">
+      {/* Sidebar */}
+      <aside className="w-64 bg-[#0D1B2A] text-white flex flex-col p-4 shadow-xl">
+        <div className="flex items-center justify-between mb-8">
           <h1 className="text-2xl font-bold" style={{ color: "#D4AF37" }}>
             Voluntra
           </h1>
-          <div className="flex items-center space-x-6">
-            <button className="flex items-center space-x-2 text-white hover:text-[#D4AF37] transition-colors">
-              <Home size={18} />
-              <span>Home</span>
-            </button>
-            <button
-              onClick={handleSignOut}
-              className="flex items-center space-x-2 text-white hover:text-red-500 transition-colors"
-            >
-              <LogOut size={18} />
-              <span>Sign Out</span>
-            </button>
-          </div>
         </div>
-      </nav>
+        <nav className="flex-1">
+          <ul className="space-y-2">
+            <li>
+              <button
+                onClick={() => setActiveTab("events")}
+                className={`w-full flex items-center p-3 rounded-lg font-medium transition-colors ${
+                  activeTab === "events"
+                    ? "bg-[#112A3C] text-[#D4AF37] border-r-4 border-[#D4AF37]"
+                    : "text-gray-300 hover:bg-[#112A3C] hover:text-[#D4AF37]"
+                }`}
+              >
+                <Calendar size={18} className="mr-3" />
+                <span>Events</span>
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => setActiveTab("history")}
+                className={`w-full flex items-center p-3 rounded-lg font-medium transition-colors ${
+                  activeTab === "history"
+                    ? "bg-[#112A3C] text-[#D4AF37] border-r-4 border-[#D4AF37]"
+                    : "text-gray-300 hover:bg-[#112A3C] hover:text-[#D4AF37]"
+                }`}
+              >
+                <Award size={18} className="mr-3" />
+                <span>History</span>
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => setActiveTab("profile")}
+                className={`w-full flex items-center p-3 rounded-lg font-medium transition-colors ${
+                  activeTab === "profile"
+                    ? "bg-[#112A3C] text-[#D4AF37] border-r-4 border-[#D4AF37]"
+                    : "text-gray-300 hover:bg-[#112A3C] hover:text-[#D4AF37]"
+                }`}
+              >
+                <User size={18} className="mr-3" />
+                <span>Profile</span>
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => navigate("/")}
+                className="w-full flex items-center p-3 rounded-lg font-medium text-gray-300 hover:bg-[#112A3C] hover:text-white transition-colors"
+              >
+                <Home size={18} className="mr-3" />
+                <span>Home</span>
+              </button>
+            </li>
+          </ul>
+        </nav>
+        <div className="mt-auto border-t border-gray-700 pt-4">
+          <button
+            onClick={handleSignOut}
+            className="w-full flex items-center p-3 rounded-lg font-medium text-red-400 hover:bg-gray-700 hover:text-red-300 transition-colors"
+          >
+            <LogOut size={18} className="mr-3" />
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </aside>
 
-      {/* Content */}
-      <main className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
-        {/* Header */}
+      {/* Main Content Area */}
+      <main className="flex-1 p-6 md:p-10 overflow-auto">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-[#0D1B2A] mb-2">
             Welcome back, Alex! 👋
@@ -122,92 +244,8 @@ const VolunteerDashboard = () => {
             </div>
           ))}
         </div>
-
-        {/* Tabs */}
-        <div className="bg-white rounded-lg shadow p-2 mb-10 flex space-x-4">
-          {[
-            { key: "ongoing", label: "Ongoing", icon: Clock },
-            { key: "upcoming", label: "Upcoming Events", icon: Calendar },
-            { key: "history", label: "History", icon: Award }
-          ].map(({ key, label, icon: Icon }) => (
-            <button
-              key={key}
-              onClick={() => setActiveTab(key)}
-              className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold transition ${
-                activeTab === key
-                  ? "bg-[#0D1B2A] text-[#D4AF37]"
-                  : "text-[#0D1B2A] hover:text-[#D4AF37]"
-              }`}
-            >
-              <Icon size={18} />
-              <span>{label}</span>
-            </button>
-          ))}
-        </div>
-
-        {/* Tab Content */}
-        <div className="bg-white rounded-lg shadow p-8">
-          {activeTab === "ongoing" && (
-            <div className="text-center py-12">
-              <Clock className="mx-auto mb-4 text-gray-400" size={32} />
-              <h3 className="text-2xl font-semibold text-[#0D1B2A] mb-2">No Ongoing Events</h3>
-              <p className="text-gray-600 mb-6">You don’t have any ongoing volunteer activities.</p>
-              <button className="bg-[#D4AF37] hover:bg-[#C19B20] text-[#0D1B2A] px-6 py-3 rounded-lg font-semibold transition">
-                Browse Events
-              </button>
-            </div>
-          )}
-
-          {activeTab === "upcoming" && (
-            <div className="text-center py-12">
-              <Calendar className="mx-auto mb-4 text-gray-400" size={32} />
-              <h3 className="text-2xl font-semibold text-[#0D1B2A] mb-2">No Upcoming Events</h3>
-              <p className="text-gray-600 mb-6">Stay tuned for exciting volunteer opportunities!</p>
-              <button className="bg-[#D4AF37] hover:bg-[#C19B20] text-[#0D1B2A] px-6 py-3 rounded-lg font-semibold transition">
-                Get Notified
-              </button>
-            </div>
-          )}
-
-          {activeTab === "history" && (
-            <div>
-              <h3 className="text-2xl font-semibold text-[#0D1B2A] mb-6">Your Volunteer History</h3>
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b-2 border-gray-200">
-                    <th className="text-left py-4 px-6 text-[#0D1B2A]">Event</th>
-                    <th className="text-left py-4 px-6 text-[#0D1B2A]">Date</th>
-                    <th className="text-left py-4 px-6 text-[#0D1B2A]">Hours</th>
-                    <th className="text-left py-4 px-6 text-[#0D1B2A]">Certificate</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
-                  {[
-                    { event: "Tree Plantation Drive", date: "12 Aug 2024", hours: "8" },
-                    { event: "Beach Cleanup Campaign", date: "25 Jul 2024", hours: "6" },
-                    { event: "Food Distribution", date: "10 Jul 2024", hours: "4" }
-                  ].map((item, idx) => (
-                    <tr key={idx} className="hover:bg-gray-50 transition">
-                      <td className="py-4 px-6 font-semibold text-[#0D1B2A]">{item.event}</td>
-                      <td className="py-4 px-6 text-gray-600">{item.date}</td>
-                      <td className="py-4 px-6">
-                        <span className="bg-[#E5E5E5] text-[#0D1B2A] px-3 py-1 rounded-full text-sm font-medium">
-                          {item.hours}h
-                        </span>
-                      </td>
-                      <td className="py-4 px-6">
-                        <button className="flex items-center space-x-2 bg-[#0D1B2A] hover:bg-[#112A3C] text-white px-4 py-2 rounded-lg font-medium transition">
-                          <Download size={16} />
-                          <span>Download</span>
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
+        
+        {renderTabContent()}
       </main>
 
       {/* Popup */}
@@ -215,9 +253,7 @@ const VolunteerDashboard = () => {
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full text-center">
             <div className="w-16 h-16 bg-[#0D1B2A] rounded-lg flex items-center justify-center mx-auto mb-6">
-              <svg className="w-8 h-8 text-[#D4AF37]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-              </svg>
+              <User className="text-[#D4AF37]" size={32} />
             </div>
             <h2 className="text-2xl font-bold text-[#0D1B2A] mb-3">Complete Your Profile</h2>
             <p className="text-gray-600 mb-8">Help us personalize your volunteer experience by completing your profile.</p>
@@ -238,11 +274,6 @@ const VolunteerDashboard = () => {
           </div>
         </div>
       )}
-
-      {/* Footer */}
-      <footer className="bg-[#0D1B2A] text-white py-6 text-center mt-auto">
-        <p className="text-sm">© {new Date().getFullYear()} Voluntra. All Rights Reserved.</p>
-      </footer>
     </div>
   );
 };
