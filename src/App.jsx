@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Welcome from "./pages/Welcome";
 import Home from "./pages/Home";
 import Contact from "./pages/Contact";
+import AuthPage from "./pages/AuthPage";
 // import About from "./pages/About";
 import VolunteerDashboard from "./features/volunteer/Dashboard";
 import './App.css'
@@ -27,6 +28,7 @@ function App() {
             {/* <Route path="/about" element={<About />} /> */}
             <Route path="/contact" element={<Contact />} />
             {/* <Route path="/dashboard" element={<Dashboard />} /> */}
+            <Route path="/login" element={<AuthPage />} /> {/* Route for login/signup */}
 
             {/* Feature-specific Dashboards */}
             <Route path="/volunteer/dashboard" element={<VolunteerDashboard />} />
