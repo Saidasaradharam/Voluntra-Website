@@ -6,6 +6,8 @@ import Contact from "./pages/Contact";
 import AuthPage from "./pages/AuthPage";
 // import About from "./pages/About";
 import VolunteerDashboard from "./features/volunteer/Dashboard";
+import NGODashboard from './features/ngo/Dashboard';
+import CorporateDashboard from './features/corporate/Dashboard';
 import './App.css'
 
 function Layout({ children }) {
@@ -33,7 +35,8 @@ function App() {
             {/* Feature-specific Dashboards */}
             <Route path="/volunteer/dashboard" element={<VolunteerDashboard />} />
             {/* <Route path="/corporate/dashboard" element={<CorporateDashboard />} /> */}
-
+            <Route path="/ngo/dashboard" element={<NGODashboard />} />
+            <Route path="/corporate/dashboard" element={<CorporateDashboard />} />
             {/* Catch-all route */}
             {/* <Route path="*" element={<NotFound />} /> */}
           </Routes>
