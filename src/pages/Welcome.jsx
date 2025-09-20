@@ -17,46 +17,12 @@ const WelcomePage = () => {
   }, []);
 
   return (
-    <div className="min-h-screen w-full flex flex-col text-gray-800 overflow-x-hidden" style={{backgroundColor: '#E5E5E5'}}>
+    <div className="relative min-h-screen w-full flex flex-col text-gray-800 overflow-x-hidden" style={{backgroundColor: '#E5E5E5'}}>
       {/* Navbar */}
-      <Navbar />
-      {/* <nav className="shadow-md sticky top-0 z-50 w-full" style={{backgroundColor: '#0D1B2A'}}>
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <h1 className="text-2xl sm:text-3xl font-bold" style={{color: '#D4AF37'}}>Voluntra</h1>
-          <ul className="hidden md:flex space-x-6 lg:space-x-8 text-base lg:text-lg font-medium text-white">
-            <li className="cursor-pointer transition-colors hover:text-[#D4AF37]">Home</li>
-            <li className="cursor-pointer transition-colors hover:text-[#D4AF37]">About Us</li>
-            <li className="cursor-pointer transition-colors hover:text-[#D4AF37]">Events</li>
-            <li className="cursor-pointer transition-colors hover:text-[#D4AF37]">Contact Us</li>
-          </ul>
-          <div className="hidden md:flex items-center space-x-4">
-            <button className="text-white hover:text-[#D4AF37] transition-colors">Sign In</button>
-            <button className="bg-[#D4AF37] text-[#0D1B2A] px-4 py-2 rounded-lg hover:bg-[#C19B20] transition-colors font-semibold">Register</button>
-          </div>
-          <button 
-            onClick={() => setIsMenuOpen(!isMenuOpen)} 
-            className="md:hidden text-white"
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </div> */}
-        {/* Mobile Menu */}
-        {/* {isMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 right-0 bg-[#0D1B2A] shadow-lg transform transition-transform duration-200">
-            <div className="py-4">
-              <ul className="flex flex-col">
-                <li className="px-8 py-3 text-white hover:text-[#D4AF37] transition-colors">Home</li>
-                <li className="px-8 py-3 text-white hover:text-[#D4AF37] transition-colors">About Us</li>
-                <li className="px-8 py-3 text-white hover:text-[#D4AF37] transition-colors">Events</li>
-                <li className="px-8 py-3 text-white hover:text-[#D4AF37] transition-colors">Contact Us</li>
-                <li className="px-8 py-3"><button className="text-[#D4AF37] hover:text-white transition-colors w-full text-left">Sign In</button></li>
-                <li className="px-8 py-3"><button className="bg-[#D4AF37] text-[#0D1B2A] px-4 py-2 rounded-lg hover:bg-[#C19B20] transition-colors w-full">Register</button></li>
-              </ul>
-            </div>
-          </div>
-        )}
-      </nav> */}
-
+      <div className="sticky top-0 z-50">
+        <Navbar />
+      </div>
+      
       {/* Hero Section */}
       <section className="w-full text-white py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8" style={{backgroundColor: '#0D1B2A'}}>
         <div className="max-w-7xl mx-auto">
