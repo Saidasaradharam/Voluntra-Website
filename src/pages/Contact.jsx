@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Mail, Phone, MapPin, MessageCircle, Send, Clock, Users } from "lucide-react";
 import Navbar from "../components/Navbar";
+import axios from "../utils/axiosInstance"; 
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +11,9 @@ const ContactPage = () => {
     message: ''
   });
 
+  const [status, setStatus] = useState(null); // null, 'success', or error message
+  const [loading, setLoading] = useState(false);
+
   const handleInputChange = (e) => {
     setFormData({
       ...formData,
@@ -17,11 +21,56 @@ const ContactPage = () => {
     });
   };
 
-  const handleSubmit = () => {
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-    alert('Thank you for your message! We will get back to you soon.');
-    setFormData({ name: '', email: '', subject: '', message: '' });
+  const handleSubmit = async (e) => {
+
+    e.preventDefault();
+    
+    setLoading(true);
+    setStatus(null);
+
+    try {
+        
+        const response = await axios.post('/contact/', formData); 
+        
+        if (response.status === 201) {
+            setStatus('success');
+            // Clearing the form on success
+            setFormData({ name: '', email: '', subject: '', message: '' });
+        }
+    } catch (error) {
+        console.error("Contact Form Submission Failed:", error.response || error);
+        
+        let errorMessage = "An error occurred. Please try again.";
+        // Detailed validation errors from Django's 400 Bad Request response
+        const errorData = error.response?.data;
+        if (errorData && typeof errorData === 'object') {
+            // Joins all error messages (e.g., if both name and email failed validation)
+            errorMessage = Object.values(errorData).flat().join(', ');
+        }
+        
+        setStatus(errorMessage);
+    } finally {
+        setLoading(false);
+    }
+  };
+
+// --- Status Renderer Function ---
+  const renderStatusMessage = () => {
+    if (status === 'success') {
+        return (
+            <p className="p-3 bg-green-100 text-green-700 rounded-lg mb-4 font-semibold">
+                ✅ Success! Thank you for your message.
+            </p>
+        );
+    }
+    if (status && status !== 'success') { // If status is an error message string
+        return (
+            <p className="p-3 bg-red-100 text-red-700 rounded-lg mb-4">
+                ❌ Submission Failed: {status}
+            </p>
+        );
+    }
+    return null;
   };
 
   return (
@@ -95,72 +144,52 @@ const ContactPage = () => {
             {/* Contact Form */}
             <div className="p-8 rounded-lg shadow-md" style={{backgroundColor: '#FFFFFF'}}>
               <h3 className="text-2xl font-bold mb-6" style={{color: '#0D1B2A'}}>Send us a Message</h3>
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium mb-2" style={{color: '#0D1B2A'}}>
-                    Full Name *
-                  </label>
-                  <input
-                    type="text"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-colors"
-                    placeholder="Enter your full name"
-                  />
-                </div>
+              
+              {/* DYNAMIC STATUS MESSAGE RENDERED HERE */}
+              {renderStatusMessage()} 
 
-                <div>
-                  <label className="block text-sm font-medium mb-2" style={{color: '#0D1B2A'}}>
-                    Email Address *
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-colors"
-                    placeholder="Enter your email address"
-                  />
-                </div>
+              {/* Form Tag added and linked to submission handler */}
+              <form onSubmit={handleSubmit} className="space-y-6"> 
+                  <div>
+                      <label className="block text-sm font-medium mb-2" style={{color: '#0D1B2A'}}>Full Name *</label>
+                      <input type="text" name="name" value={formData.name} onChange={handleInputChange} required
+                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-colors"
+                            placeholder="Enter your full name" />
+                  </div>
 
-                <div>
-                  <label className="block text-sm font-medium mb-2" style={{color: '#0D1B2A'}}>
-                    Subject *
-                  </label>
-                  <input
-                    type="text"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-colors"
-                    placeholder="What's this about?"
-                  />
-                </div>
+                  <div>
+                      <label className="block text-sm font-medium mb-2" style={{color: '#0D1B2A'}}>Email Address *</label>
+                      <input type="email" name="email" value={formData.email} onChange={handleInputChange} required
+                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-colors"
+                            placeholder="Enter your email address" />
+                  </div>
 
-                <div>
-                  <label className="block text-sm font-medium mb-2" style={{color: '#0D1B2A'}}>
-                    Message *
-                  </label>
-                  <textarea
-                    name="message"
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    rows="5"
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-colors resize-vertical"
-                    placeholder="Tell us more about how we can help you..."
-                  ></textarea>
-                </div>
+                  <div>
+                      <label className="block text-sm font-medium mb-2" style={{color: '#0D1B2A'}}>Subject *</label>
+                      <input type="text" name="subject" value={formData.subject} onChange={handleInputChange} required
+                            className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-colors"
+                            placeholder="What's this about?" />
+                  </div>
 
-                <button
-                  onClick={handleSubmit}
-                  className="w-full flex items-center justify-center px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:opacity-90"
-                  style={{backgroundColor: '#D4AF37', color: '#0D1B2A'}}
-                >
-                  <Send className="mr-2 w-4 h-4" />
-                  Send Message
-                </button>
-              </div>
+                  <div>
+                      <label className="block text-sm font-medium mb-2" style={{color: '#0D1B2A'}}>Message *</label>
+                      <textarea name="message" value={formData.message} onChange={handleInputChange} required
+                                rows="5"
+                                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-yellow-500 transition-colors resize-vertical"
+                                placeholder="Tell us more about how we can help you..."
+                      ></textarea>
+                  </div>
+
+                  <button
+                      type="submit" // CRITICAL: Use type="submit" to trigger form's onSubmit
+                      className="w-full flex items-center justify-center px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 hover:opacity-90"
+                      style={{backgroundColor: '#D4AF37', color: '#0D1B2A'}}
+                      disabled={loading} 
+                  >
+                      <Send className="mr-2 w-4 h-4" />
+                      {loading ? 'Sending...' : 'Send Message'}
+                  </button>
+              </form>
             </div>
 
             {/* Additional Information */}
