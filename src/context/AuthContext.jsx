@@ -178,6 +178,7 @@ export const AuthProvider = ({ children, navigate }) => {
         authError,
         authStep,
         checkedUsername,
+        setUser,
         checkUser,
         resetAuthStep,
         login,

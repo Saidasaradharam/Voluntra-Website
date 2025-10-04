@@ -5,7 +5,7 @@ import { useAuth } from '../../context/AuthContext.jsx';
 import { User, Mail, Edit } from 'lucide-react';
 
 const Profile = () => {
-    const { user, axiosInstance } = useAuth();
+const { user, axiosInstance, setUser, logout } = useAuth(); 
     
     // Initialize form data with current user's profile information
     const [formData, setFormData] = useState({
@@ -33,9 +33,12 @@ const Profile = () => {
             const response = await axiosInstance.patch(`/profile/${user.id}/`, formData);
 
             if (response.status === 200) {
+                const updatedUserData = response.data;
+                // Updating localStorage
+                localStorage.setItem('user_data', JSON.stringify(updatedUserData));
+                // Updating the global Auth Context state
+                setUser(updatedUserData); 
                 setStatus('success');
-                // OPTIONAL: Manually update user context/localStorage if needed, 
-                // though a subsequent refresh/login would eventually load the new data.
             }
         } catch (error) {
             console.error("Profile Update Failed:", error.response || error);
