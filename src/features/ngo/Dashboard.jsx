@@ -9,10 +9,12 @@ import {
   PlusCircle,
   BarChart2,
   Settings,
-  Info
+  Info,
+  User // Imported User icon for the Profile tab
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
+import { useAuth } from "../../context/AuthContext.jsx"; // AUTH INTEGRATION
+import Profile from '../volunteer/Profile.jsx'; 
 // This is a placeholder component for event management content
 const EventsContent = () => (
   <div className="bg-white rounded-lg shadow p-8">
@@ -68,6 +70,8 @@ const DonationsContent = () => (
 );
 
 const NGODashboard = () => {
+
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("events");
   const [isLoading, setIsLoading] = useState(true);
@@ -86,8 +90,7 @@ const NGODashboard = () => {
   }, []);
 
   const handleSignOut = () => {
-    console.log("Signing out NGO...");
-    navigate("/");
+    logout();
   };
 
   const renderTabContent = () => {
@@ -98,9 +101,11 @@ const NGODashboard = () => {
         return <VolunteersContent />;
       case "donations":
         return <DonationsContent />;
+      case "profile":
+        return <Profile />;
       default:
         return null;
-    }
+      }
   };
 
   if (error) {
@@ -142,9 +147,18 @@ const NGODashboard = () => {
       <aside className="w-64 bg-[#0D1B2A] text-white flex flex-col p-4 shadow-xl">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-2xl font-bold" style={{ color: "#D4AF37" }}>
-            Voluntra
+              Voluntra
           </h1>
         </div>
+          
+        {/* Dynamic User Greeting in Sidebar */}
+        <div className="mt-4 mb-8">
+          <p className="text-sm text-gray-400">Logged in as:</p>
+          <h2 className="text-lg font-semibold text-white">
+              {user ? user.username : 'NGO Admin'}
+          </h2> 
+        </div>
+
         <nav className="flex-1">
           <ul className="space-y-2">
             <li>
@@ -153,9 +167,7 @@ const NGODashboard = () => {
                 className={`w-full flex items-center p-3 rounded-lg font-medium transition-colors ${
                   activeTab === "events"
                     ? "bg-[#112A3C] text-[#D4AF37] border-r-4 border-[#D4AF37]"
-                    : "text-gray-300 hover:bg-[#112A3C] hover:text-[#D4AF37]"
-                }`}
-              >
+                    : "text-gray-300 hover:bg-[#112A3C] hover:text-[#D4AF37]"}`}>
                 <Calendar size={18} className="mr-3" />
                 <span>Events</span>
               </button>
@@ -166,9 +178,7 @@ const NGODashboard = () => {
                 className={`w-full flex items-center p-3 rounded-lg font-medium transition-colors ${
                   activeTab === "volunteers"
                     ? "bg-[#112A3C] text-[#D4AF37] border-r-4 border-[#D4AF37]"
-                    : "text-gray-300 hover:bg-[#112A3C] hover:text-[#D4AF37]"
-                }`}
-              >
+                    : "text-gray-300 hover:bg-[#112A3C] hover:text-[#D4AF37]"}`}>
                 <Users size={18} className="mr-3" />
                 <span>Volunteers</span>
               </button>
@@ -179,11 +189,20 @@ const NGODashboard = () => {
                 className={`w-full flex items-center p-3 rounded-lg font-medium transition-colors ${
                   activeTab === "donations"
                     ? "bg-[#112A3C] text-[#D4AF37] border-r-4 border-[#D4AF37]"
-                    : "text-gray-300 hover:bg-[#112A3C] hover:text-[#D4AF37]"
-                }`}
-              >
+                    : "text-gray-300 hover:bg-[#112A3C] hover:text-[#D4AF37]"}`}>
                 <DollarSign size={18} className="mr-3" />
                 <span>Donations</span>
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => setActiveTab("profile")}
+                className={`w-full flex items-center p-3 rounded-lg font-medium transition-colors ${
+                  activeTab === "profile"
+                    ? "bg-[#112A3C] text-[#D4AF37] border-r-4 border-[#D4AF37]"
+                    : "text-gray-300 hover:bg-[#112A3C] hover:text-[#D4AF37]"}`}>
+                <User size={18} className="mr-3" />
+                <span>Profile</span>
               </button>
             </li>
           </ul>
@@ -210,7 +229,7 @@ const NGODashboard = () => {
       <main className="flex-1 p-6 md:p-10 overflow-auto">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-[#0D1B2A] mb-2">
-            NGO Dashboard
+            Welcome back, {user ? user.first_name || user.username : 'NGO Admin'}! 👋
           </h1>
           <p className="text-lg text-gray-600">Track and manage your organization's activities</p>
         </div>

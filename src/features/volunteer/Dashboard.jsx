@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Download, Home, LogOut, Calendar, Clock, Award, User, Settings, Info } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext.jsx"; // Adjust path as necessary
+import { useAuth } from "../../context/AuthContext.jsx";
 import Profile from './Profile.jsx';
+import DonationForm from '../../components/DonationForm.jsx';
 
 const VolunteerDashboard = () => {
   const { user, logout, axiosInstance } = useAuth(); // Get user state and logout function
@@ -240,6 +241,12 @@ const VolunteerDashboard = () => {
             </div>
           ))}
         </div>
+
+        {/* DONATION FORM INTEGRATION*/}
+        <div className="mb-10 max-w-lg">
+            <DonationForm /> 
+        </div>
+        {/* ----------------------------------------------- */}
         
         {renderTabContent()}
       </main>
