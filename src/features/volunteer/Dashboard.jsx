@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { Download, Home, LogOut, Calendar, Clock, Award, User, Settings, Info } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext.jsx"; // Adjust path as necessary
+import Profile from './Profile.jsx';
 
 const VolunteerDashboard = () => {
+  const { user, logout, axiosInstance } = useAuth(); // Get user state and logout function
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("events"); // 'events' is the new default tab
   const [showPopup, setShowPopup] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  if (!user && !isLoading) {
+      navigate("/login", { replace: true });
+      return null; // Stop rendering the dashboard content
+  }
 
   useEffect(() => {
     try {
@@ -25,9 +33,7 @@ const VolunteerDashboard = () => {
   }, []);
 
   const handleSignOut = () => {
-    // Implement actual sign-out logic, e.g., localStorage.removeItem("user");
-    console.log("Signing out...");
-    navigate("/");
+    logout(); 
   };
 
   const handleClosePopup = () => setShowPopup(false);
@@ -124,17 +130,7 @@ const VolunteerDashboard = () => {
           </div>
         );
       case "profile":
-        return (
-          <div className="bg-white rounded-lg shadow p-8">
-            <h3 className="text-2xl font-semibold text-[#0D1B2A] mb-4">Your Profile</h3>
-            <p className="text-gray-600">
-              This is where you can update your personal details, skills, and interests.
-            </p>
-            <button className="mt-4 bg-[#D4AF37] hover:bg-[#C19B20] text-[#0D1B2A] px-6 py-3 rounded-lg font-semibold transition-colors">
-              Edit Profile
-            </button>
-          </div>
-        );
+        return <Profile />;
       default:
         return null;
     }
@@ -215,10 +211,10 @@ const VolunteerDashboard = () => {
       {/* Main Content Area */}
       <main className="flex-1 p-6 md:p-10 overflow-auto">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold text-[#0D1B2A] mb-2">
-            Welcome back, Alex! 👋
-          </h1>
-          <p className="text-lg text-gray-600">Here’s your volunteer journey so far</p>
+            <h1 className="text-4xl font-bold text-[#0D1B2A] mb-2">
+                Welcome back, {user ? user.first_name || user.username : 'Volunteer'}! 👋
+            </h1>
+            <p className="text-lg text-gray-600">Here’s your volunteer journey so far</p>
         </div>
 
         {/* Stats */}

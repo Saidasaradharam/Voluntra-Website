@@ -33,21 +33,19 @@ function App() {
 
                     {/* --- Secured/Role-Based Dashboard Routes --- */}
                     
-                    {/* Volunteer Dashboard */}
+                    {/* Volunteer Dashboard - Access via /dashboard/volunteer */}
                     <Route element={<ProtectedRoute allowedRoles={['volunteer']} />}>
-                        {/* NOTE: You should ensure your AuthContext redirects to /dashboard/volunteer 
-                           for this to work correctly, or use unique paths here. */}
-                        <Route path="/dashboard" element={<VolunteerDashboard />} />
+                        <Route path="/dashboard/volunteer" element={<VolunteerDashboard />} />
                     </Route>
 
-                    {/* NGO Dashboard */}
+                    {/* NGO Dashboard - Access via /dashboard/ngo */}
                     <Route element={<ProtectedRoute allowedRoles={['ngo']} />}>
-                        <Route path="/dashboard" element={<NGODashboard />} />
+                        <Route path="/dashboard/ngo" element={<NGODashboard />} />
                     </Route>
 
-                    {/* Corporate Dashboard */}
+                    {/* Corporate Dashboard - Access via /dashboard/corporate */}
                     <Route element={<ProtectedRoute allowedRoles={['corporate']} />}>
-                        <Route path="/dashboard" element={<CorporateDashboard />} />
+                        <Route path="/dashboard/corporate" element={<CorporateDashboard />} />
                     </Route>
                     
                     {/* <Route path="*" element={<NotFound />} /> */}
