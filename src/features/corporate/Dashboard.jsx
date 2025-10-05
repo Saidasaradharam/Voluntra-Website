@@ -44,9 +44,7 @@ const ReportingContent = () => (
 
 
 const CorporateDashboard = () => {
-  // --- AUTH INTEGRATION ---
   const { user, logout } = useAuth();
-  // ------------------------
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("events");
   const [isLoading, setIsLoading] = useState(true);
