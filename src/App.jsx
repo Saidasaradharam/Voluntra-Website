@@ -8,6 +8,10 @@ import VolunteerDashboard from "./features/volunteer/Dashboard";
 import NGODashboard from './features/ngo/Dashboard';
 import CorporateDashboard from './features/corporate/Dashboard';
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import AddEventPage from './features/ngo/AddEventPage.jsx';
+import EventListPage from './features/ngo/EventListPage.jsx';
+import EditEventPage from './features/ngo/EditEventPage.jsx';
+
 // import NotFound from "./pages/NotFound"; 
 import './App.css';
 
@@ -41,6 +45,9 @@ function App() {
                     {/* NGO Dashboard - Access via /dashboard/ngo */}
                     <Route element={<ProtectedRoute allowedRoles={['ngo']} />}>
                         <Route path="/dashboard/ngo" element={<NGODashboard />} />
+                        <Route path="/dashboard/ngo/events/add" element={<AddEventPage />} />
+                        <Route path="/dashboard/ngo/events/list" element={<EventListPage />} />
+                        <Route path="/dashboard/ngo/events/edit/:id" element={<EditEventPage />} />
                     </Route>
 
                     {/* Corporate Dashboard - Access via /dashboard/corporate */}
